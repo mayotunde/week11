@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>layer controls in Leaflet maps</title>
+<link rel="stylesheet" href="https://npmcdn.com/leaflet@0.7.7/dist/leaflet.css"/>
+<script src="https://npmcdn.com/leaflet@0.7.7/dist/leaflet.js"></script>
+<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+</head>
+<body>
+<div id="map" style="width: 700px;height: 500px"></div>
+
+<script>
+
+var style = {fillColor:'#fe0', color:'#000', weight:1};
+
+var southwest = new L.LayerGroup();
+
+$.getJSON("https://cdn.rawgit.com/mayotunde/week11/master/southwestzone.geojson", function(data){
+L.geoJson(data, style).addTo(southwest);
+});
+
+var southeast = new L.LayerGroup();
+
+$.getJSON("https://cdn.rawgit.com/mayotunde/week11/master/southezone.geojson", function(data){
+L.geoJson(data, style).addTo(southeast);
+});
+
+var southsouth = new L.LayerGroup();
+
+$.getJSON("https://cdn.rawgit.com/mayotunde/week11/master/southszone.geojson", function(data){
+L.geoJson(data, style).addTo(southsouth);
+});
+
+var northwest = new L.LayerGroup();
+
+$.getJSON("https://cdn.rawgit.com/mayotunde/week11/master/northwzone.geojson", function(data){
+L.geoJson(data, style).addTo(northwest);
+});
+
+var northeast = new L.LayerGroup();
+
+$.getJSON("https://cdn.rawgit.com/mayotunde/week11/master/northezone.geojson", function(data){
+L.geoJson(data, style).addTo(northeast);
+});
+
+var northcentral = new L.LayerGroup();
+
+$.getJSON("https://cdn.rawgit.com/mayotunde/week11/master/northczone.geojson", function(data){
+L.geoJson(data, style).addTo(northcentral);
+});
+
+var attr = 'Map data &copy; <a href="http://openstreetmap.org">openstreetmap</a>, ' +
+			'<a href="http://www.mapsnigeriainitiative.com">mapsnigeriainitiative</a>, ' +
+			'<a href="http://stamen.com">stamen</a>';
+
+
+
+var basemap = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: attr});
+       
+
+
+
+var map = L.map('map', {center: [9.00,8.00],zoom: 3,layers: [basemap, southwest, southeast, southsouth, northwest, northeast, northcentral]});
+
+var basemaps = {"basemap": basemap};
+var zones = {"southwest": southwest, "southeast": southeast, "southsouth": southsouth, "northcentral": northcentral, "northeast": northeast, "northwest": northwest, };
+
+ 
+
+L.control.layers(basemaps, zones, {collapsed: false}).addTo(map);
+</script>
+</body>
+</html>
